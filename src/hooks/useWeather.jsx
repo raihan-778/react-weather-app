@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 
 export const useWeather = () => {
   const [weatherData, setWeatherData] = useState({
@@ -20,15 +20,17 @@ export const useWeather = () => {
     message: "",
   });
   const [error, setError] = useState(null);
-  const getWeatherData = async (lat, lon) => {
+
+  const getWeatherData = async (latitude, longitude) => {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${
-          import.meta.env.VITE_APP_WeatherApiKey
-        }`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${
+          import.meta.env.VITE_WEATHER_API
+        }&units=metric`
       );
 
-      setLoading(...Loading, {
+      setLoading({
+        ...Loading,
         status: true,
         message: "Fetching weather data...",
       });
@@ -36,9 +38,12 @@ export const useWeather = () => {
         const errorMessage = `Failed to fetch weather data: ${response.status} ${response.statusText}`;
         throw new Error(errorMessage);
       }
-      const data = response.json();
+      const data = await response.json();
+      console.log("Responsed Data", data);
 
-      const weatherData = {
+      const updatedWeatherData = {
+        ...weatherData,
+
         location: data?.name,
         weather: data?.weather[0].main,
         climate: data?.weather[0].description,
@@ -52,8 +57,9 @@ export const useWeather = () => {
         longitude: data?.coord.lon,
         latitude: data?.coord.lat,
       };
+      console.log("updated", updatedWeatherData);
 
-      console.log(weatherData);
+      setWeatherData(updatedWeatherData);
     } catch (err) {
       setError(err);
     } finally {
@@ -62,8 +68,25 @@ export const useWeather = () => {
         status: false,
         message: "",
       });
+
+      console.log("weather Data", weatherData);
     }
   };
 
-  return <div>useWeather</div>;
+  const onNavigate = useEffectEvent((latitude, longitude) => {
+    getWeatherData(latitude, longitude);
+  });
+
+  useEffect(() => {
+    setLoading({
+      Loading: true,
+      message: "Waiting for location permition...",
+    });
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      onNavigate(position.coords.latitude, position.coords.longitude);
+    });
+  }, []);
+
+  return { weatherData, Loading, error };
 };

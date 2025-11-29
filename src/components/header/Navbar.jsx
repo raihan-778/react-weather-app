@@ -3,6 +3,8 @@ import Logo from "../../assets/logo.svg";
 import Search from "../../assets/search.svg";
 import { LocationListModal } from "./LocationListModal";
 
+import Heart from "../../assets/heart.svg";
+
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -26,7 +28,7 @@ export const Navbar = () => {
           </div>
         </form>
         <div className="p-2 hover:bg-black/30 cursor-pointer flex gap-2 items-center rounded-md transition-all">
-          <img src="./assets/heart.svg" alt="" />
+          <img src={Heart} alt="" />
           <span onClick={() => setIsOpen((isOpen) => !isOpen)}>
             Favourite Locations
           </span>
