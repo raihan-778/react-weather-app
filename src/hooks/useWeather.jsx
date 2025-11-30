@@ -15,7 +15,7 @@ export const useWeather = () => {
     longitude: "",
     latitude: "",
   });
-  const [Loading, setLoading] = useState({
+  const [loading, setLoading] = useState({
     status: false,
     message: "",
   });
@@ -30,7 +30,7 @@ export const useWeather = () => {
       );
 
       setLoading({
-        ...Loading,
+        ...loading,
         status: true,
         message: "Fetching weather data...",
       });
@@ -39,7 +39,6 @@ export const useWeather = () => {
         throw new Error(errorMessage);
       }
       const data = await response.json();
-      console.log("Responsed Data", data);
 
       const updatedWeatherData = {
         ...weatherData,
@@ -57,19 +56,16 @@ export const useWeather = () => {
         longitude: data?.coord.lon,
         latitude: data?.coord.lat,
       };
-      console.log("updated", updatedWeatherData);
 
       setWeatherData(updatedWeatherData);
     } catch (err) {
       setError(err);
     } finally {
       setLoading({
-        ...Loading,
+        ...loading,
         status: false,
         message: "",
       });
-
-      console.log("weather Data", weatherData);
     }
   };
 
@@ -88,5 +84,5 @@ export const useWeather = () => {
     });
   }, []);
 
-  return { weatherData, Loading, error };
+  return { weatherData, loading, error };
 };

@@ -6,6 +6,7 @@ import { WeatherHeadline } from "./WeatherHeadline";
 
 export const WeatherBoard = () => {
   const { loading } = useContext(WeatherContext);
+  // const { weatherData, loading, error } = useWeather();
 
   return (
     <div className="container bg-[url('/assets/body-bg.png')] bg-no-repeat bg-cover h-screen grid place-items-center">

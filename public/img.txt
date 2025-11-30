@@ -1,0 +1,18 @@
+import ChevronLeftIcon from "../../assets/chevron-left.svg";
+import ChevronRightIcon from "../../assets/chevron-right.svg";
+
+import CloudeIcon from "../../assets/cloud.svg";   // already given
+import HazeIcon from "../../assets/haze.svg";      // already given
+
+import HeartRedIcon from "../../assets/heart-red.svg";
+import HeartIcon from "../../assets/heart.svg";
+
+import LogoIcon from "../../assets/logo.svg";
+import PinIcon from "../../assets/pin.svg";
+
+import RainIcon from "../../assets/rainy.svg";     // keep your existing one
+
+import ReactIcon from "../../assets/react.svg";
+import SearchIcon from "../../assets/search.svg";
+import SunIcon from "../../assets/sun.svg";
+import ThunderIcon from "../../assets/thunder.svg";
