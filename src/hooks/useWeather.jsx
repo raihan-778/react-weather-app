@@ -1,6 +1,8 @@
-import { useEffect, useEffectEvent, useState } from "react";
+import { useContext, useEffect, useEffectEvent, useState } from "react";
+import { LocationContext } from "../context";
 
 export const useWeather = () => {
+  const { selectedLocation } = useContext(LocationContext);
   const [weatherData, setWeatherData] = useState({
     location: "",
     weather: "",
@@ -20,6 +22,8 @@ export const useWeather = () => {
     message: "",
   });
   const [error, setError] = useState(null);
+
+  console.log(selectedLocation);
 
   const getWeatherData = async (latitude, longitude) => {
     try {

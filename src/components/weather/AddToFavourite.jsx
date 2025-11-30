@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useEffectEvent, useState } from "react";
 import RedHeart from "../../assets/heart-red.svg";
 import Heart from "../../assets/heart.svg";
 import { FavouriteContext, WeatherContext } from "../../context";
@@ -6,12 +6,25 @@ import { FavouriteContext, WeatherContext } from "../../context";
 export const AddToFavourite = () => {
   const { weatherData } = useContext(WeatherContext);
 
+  console.log(weatherData);
+
   const { favourites, addToFavourites, removeFromFavourites } =
     useContext(FavouriteContext);
 
   const { latitude, longitude, location } = weatherData;
 
   const [isFavourite, toggleFavourite] = useState(false);
+
+  const findFavourite = useEffectEvent(() => {
+    const found = favourites.some((fav) => fav.location === location);
+
+    toggleFavourite(found);
+  });
+
+  useEffect(() => {
+    findFavourite(location);
+    // const found = favourites.find((fav) => fav.location === location);
+  }, [location]);
 
   const handleFavourite = () => {
     console.log("handleFavourite called");
