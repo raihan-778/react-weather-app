@@ -2,7 +2,6 @@ import { useContext, useEffect, useEffectEvent, useState } from "react";
 import { LocationContext } from "../context";
 
 export const useWeather = () => {
-  const { selectedLocation } = useContext(LocationContext);
   const [weatherData, setWeatherData] = useState({
     location: "",
     weather: "",
@@ -23,7 +22,8 @@ export const useWeather = () => {
   });
   const [error, setError] = useState(null);
 
-  console.log(selectedLocation);
+  const { selectedLocation, setSelectedLocation } = useContext(LocationContext);
+  console.log("Use Weather", selectedLocation);
 
   const getWeatherData = async (latitude, longitude) => {
     try {
@@ -83,10 +83,14 @@ export const useWeather = () => {
       message: "Waiting for location permition...",
     });
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      onNavigate(position.coords.latitude, position.coords.longitude);
-    });
-  }, []);
+    if (selectedLocation) {
+      onNavigate(selectedLocation.latitude, selectedLocation.longitude);
+    } else {
+      navigator.geolocation.getCurrentPosition((position) => {
+        onNavigate(position.coords.latitude, position.coords.longitude);
+      });
+    }
+  }, [selectedLocation]);
 
   return { weatherData, loading, error };
 };

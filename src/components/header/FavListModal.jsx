@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import Heart from "../../assets/heart.svg";
-import { FavouriteContext } from "../../context";
+import { FavouriteContext, LocationContext } from "../../context";
 
 export const FavListModal = () => {
   const { favourites } = useContext(FavouriteContext);
+
+  const { setSelectedLocation } = useContext(LocationContext);
   return (
     <>
       {" "}
@@ -14,7 +16,7 @@ export const FavListModal = () => {
           {favourites.length > 0 ? (
             favourites.map((fav) => (
               <li kay={fav.location} className="hover:bg-gray-200">
-                {fav.location}
+                <a onClick={() => setSelectedLocation(fav)}>{fav.location}</a>
               </li>
             ))
           ) : (
